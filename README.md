@@ -14,3 +14,5 @@ Aims to develop a shiny/shinydashboard for the Digitalis Investigation Group (DI
 
 
 with this we need to show him how we were continuously working on our project
+
+we just need to show the continuous green patch

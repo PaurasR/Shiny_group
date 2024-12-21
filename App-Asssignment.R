@@ -166,4 +166,13 @@ server <- function(input, output, session) {
       scale_fill_manual(values = c("#3498db", "#f39c12")) +
       theme_minimal()
   })
+  
+  
+  output$clinicalPlot <- renderPlot({
+    ggplot(DIG, aes_string(x = input$xVar, y = input$yVar)) +
+      geom_point(color = "#9b59b6", alpha = 0.7) +
+      labs(title = paste(input$xVar, "vs", input$yVar), 
+           x = input$xVar, y = input$yVar) +
+      theme_minimal()
+  })
 }

@@ -143,4 +143,27 @@ server <- function(input, output, session) {
   output$overviewTable <- renderDataTable({
     datatable(DIG)
   })
+  
+  
+  output$agePlot <- renderPlot({
+    filtered_data <- DIG %>%
+      filter(AGE >= input$ageRange[1], AGE <= input$ageRange[2],
+             SEX %in% input$genderFilter, RACE %in% input$raceFilter)
+    
+    ggplot(filtered_data, aes(x = AGE)) +
+      geom_histogram(binwidth = 5, fill = "#4CAF50", color = "#2c3e50") +
+      labs(title = "Age Distribution", x = "Age", y = "Frequency") +
+      theme_minimal()
+  })
+  
+  output$racePlot <- renderPlot({
+    filtered_data <- DIG %>%
+      filter(SEX %in% input$genderFilter, RACE %in% input$raceFilter)
+    
+    ggplot(filtered_data, aes(x = RACE, fill = RACE)) +
+      geom_bar() +
+      labs(title = "Race Distribution", x = "Race", y = "Count") +
+      scale_fill_manual(values = c("#3498db", "#f39c12")) +
+      theme_minimal()
+  })
 }

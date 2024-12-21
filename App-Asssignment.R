@@ -130,3 +130,17 @@ ui <- dashboardPage(
     )
   )
 )
+
+# Server Section - Define what happens when users interact with the app 
+
+
+server <- function(input, output, session) {
+  
+  # Show the loading animation while the app loads
+  waiter_show(html = tags$img(src = "https://media.giphy.com/media/5VK6e0F2DFwFEdt0Er/giphy.gif"))
+  
+  # Overview: Show the data table
+  output$overviewTable <- renderDataTable({
+    datatable(DIG)
+  })
+}

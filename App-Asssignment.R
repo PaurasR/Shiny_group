@@ -198,6 +198,5 @@ server <- function(input, output, session) {
   waiter_hide()
 }
 
-
-# Run the App
+# for Running the App
 shinyApp(ui = ui, server = server)

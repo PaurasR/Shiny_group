@@ -43,5 +43,48 @@ dashboardBody(
       )
     ),
     
-  )))
+  )
+)
+
+# Demographics Tab
+tabItem(
+  tabName = "demographics",
+  fluidRow(
+    box(
+      title = "Demographic Filters", 
+      width = 4, 
+      status = "info", 
+      solidHeader = TRUE,
+      collapsible = TRUE,
+      sliderInput("ageRange", "Select Age Range:", 
+                  min = min(DIG$AGE), max = max(DIG$AGE), 
+                  value = c(min(DIG$AGE), max(DIG$AGE))),
+      checkboxGroupInput("genderFilter", "Select Gender:", 
+                         choices = levels(DIG$SEX), 
+                         selected = levels(DIG$SEX)),
+      checkboxGroupInput("raceFilter", "Select Race:", 
+                         choices = levels(DIG$RACE), 
+                         selected = levels(DIG$RACE))
+    ),
+    box(
+      title = "Age Distribution", 
+      width = 8, 
+      status = "primary", 
+      solidHeader = TRUE,
+      collapsible = TRUE,
+      plotOutput("agePlot")
+    )
+  ),
+  fluidRow(
+    box(
+      title = "Race Distribution", 
+      width = 12, 
+      status = "primary", 
+      solidHeader = TRUE,
+      collapsible = TRUE,
+      plotOutput("racePlot")
+    )
+  )
+),
+
 

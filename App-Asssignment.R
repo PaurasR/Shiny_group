@@ -183,4 +183,15 @@ server <- function(input, output, session) {
       scale_fill_manual(values = c("#e74c3c", "#2ecc71"), name = "Death (1=Yes, 0=No)") +
       theme_minimal()
   })
+  
+  output$summaryTable <- renderDataTable({
+    DIG %>%
+      group_by(TRTMT) %>%
+      summarise(
+        Total = n(),
+        Deaths = sum(DEATH, na.rm = TRUE),
+        DeathRate = round(mean(DEATH, na.rm = TRUE) * 100, 2)
+      ) %>%
+      datatable(options = list(pageLength = 5))
+  })
 }

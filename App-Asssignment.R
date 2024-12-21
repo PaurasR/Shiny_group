@@ -1,0 +1,10 @@
+library(shiny)
+library(shinydashboard)
+library(shinydashboardPlus)
+library(dplyr)
+library(ggplot2)
+library(DT)
+library(waiter)
+
+DIG <- read.csv("C:/Users/anitt/Downloads/DIG.csv")
+DIG <- DIG %>% filter(!is.na(AGE) & !is.na(DEATH))

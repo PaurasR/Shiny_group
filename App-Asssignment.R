@@ -194,4 +194,6 @@ server <- function(input, output, session) {
       ) %>%
       datatable(options = list(pageLength = 5))
   })
+  
+  waiter_hide()
 }

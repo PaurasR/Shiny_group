@@ -175,4 +175,12 @@ server <- function(input, output, session) {
            x = input$xVar, y = input$yVar) +
       theme_minimal()
   })
+  
+  output$deathPlot <- renderPlot({
+    ggplot(DIG, aes(x = TRTMT, fill = as.factor(DEATH))) +
+      geom_bar(position = "dodge") +
+      labs(title = "Mortality by Treatment", x = "Treatment", y = "Count") +
+      scale_fill_manual(values = c("#e74c3c", "#2ecc71"), name = "Death (1=Yes, 0=No)") +
+      theme_minimal()
+  })
 }

@@ -132,7 +132,7 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output, session) {
-  
+
   waiter_show(html = tags$img(src = "https://media.giphy.com/media/5VK6e0F2DFwFEdt0Er/giphy.gif"))
   
   output$overviewTable <- renderDataTable({
@@ -191,6 +191,9 @@ server <- function(input, output, session) {
       ) %>%
       datatable(options = list(pageLength = 5))
   })
+  
+  
+  #hide the animation
   
   waiter_hide()
 }

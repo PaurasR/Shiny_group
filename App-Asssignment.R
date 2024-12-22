@@ -131,19 +131,16 @@ ui <- dashboardPage(
   )
 )
 
-# Server Section - Define what happens when users interact with the app 
-
-
 server <- function(input, output, session) {
   
-  # Show the loading animation while the app loads
   waiter_show(html = tags$img(src = "https://media.giphy.com/media/5VK6e0F2DFwFEdt0Er/giphy.gif"))
   
-  # Overview: Show the data table
   output$overviewTable <- renderDataTable({
-    datatable(DIG)
+    datatable(
+      DIG,
+      options = list(scrollX = TRUE)  
+    )
   })
-  
   
   output$agePlot <- renderPlot({
     filtered_data <- DIG %>%
@@ -198,5 +195,4 @@ server <- function(input, output, session) {
   waiter_hide()
 }
 
-# for Running the App
 shinyApp(ui = ui, server = server)

@@ -1,22 +1,32 @@
+#Load the necessary libraries rquired for building the app
 library(shiny)
 library(shinydashboard)
 library(shinydashboardPlus)
+
+#for data
 library(dplyr)
+
+#for plots creation
 library(ggplot2)
 library(DT)
+
+#for animation
 library(waiter)
 
+#load DIG dataset
 DIG <- read.csv("DIG.csv")
-DIG <- DIG %>% filter(!is.na(AGE) & !is.na(DEATH))  
+DIG <- DIG %>% filter(!is.na(AGE) & !is.na(DEATH))  #remove missing values 
 
+#converting specific values in dataset to categorical values for easier use in plots and filters
 DIG$TRTMT <- factor(DIG$TRTMT, levels = c(0, 1), labels = c("Placebo", "Treatment"))
 DIG$SEX <- factor(DIG$SEX, levels = c(1, 2), labels = c("Male", "Female"))
 DIG$RACE <- factor(DIG$RACE, levels = c(1, 2), labels = c("White", "Nonwhite"))
 
+#UI desion section layout beginning
 ui <- dashboardPage(
-  dashboardHeader(title = "DIG Trial Dashboard"),
+  dashboardHeader(title = "DIG Trial Dashboard"), # App title
   dashboardSidebar(
-    sidebarMenu(
+    sidebarMenu( #Sidebar menu for better user experience 
       menuItem("Overview", tabName = "overview", icon = icon("home")),
       menuItem("Demographics", tabName = "demographics", icon = icon("users")),
       menuItem("Clinical Measures", tabName = "clinical", icon = icon("stethoscope")),
@@ -24,7 +34,7 @@ ui <- dashboardPage(
     )
   ),
   dashboardBody(
-    use_waiter(),  
+    use_waiter(),  #animation for UI interactive
     tabItems(
       tabItem(
         tabName = "overview",
@@ -35,11 +45,11 @@ ui <- dashboardPage(
             status = "primary", 
             solidHeader = TRUE,
             collapsible = TRUE,
-            dataTableOutput("overviewTable")
+            dataTableOutput("overviewTable") #display the dataset in table format
           )
         )
       ),
-      tabItem(
+      tabItem( #filter function for age, race and gender
         tabName = "demographics",
         fluidRow(
           box(
@@ -50,14 +60,15 @@ ui <- dashboardPage(
             collapsible = TRUE,
             sliderInput("ageRange", "Select Age Range:", 
                         min = min(DIG$AGE), max = max(DIG$AGE), 
-                        value = c(min(DIG$AGE), max(DIG$AGE))),
+                        value = c(min(DIG$AGE), max(DIG$AGE))), #Age upper and lower bounds
             checkboxGroupInput("genderFilter", "Select Gender:", 
                                choices = levels(DIG$SEX), 
-                               selected = levels(DIG$SEX)),
+                               selected = levels(DIG$SEX)), #Sex filter
             checkboxGroupInput("raceFilter", "Select Race:", 
                                choices = levels(DIG$RACE), 
-                               selected = levels(DIG$RACE))
+                               selected = levels(DIG$RACE)) #Race Fliter
           ),
+          #plot for age distribution
           box(
             title = "Age Distribution", 
             width = 8, 
@@ -68,6 +79,7 @@ ui <- dashboardPage(
           )
         ),
         fluidRow(
+        #plot for race distribution
           box(
             title = "Race Distribution", 
             width = 12, 
@@ -78,7 +90,7 @@ ui <- dashboardPage(
           )
         )
       ),
-      
+      #Clinical observed data
       tabItem(
         tabName = "clinical",
         fluidRow(
@@ -88,6 +100,7 @@ ui <- dashboardPage(
             status = "info", 
             solidHeader = TRUE,
             collapsible = TRUE,
+            #Select X and Y coordinate variables
             selectInput("xVar", "Select X-axis Variable:", 
                         choices = c("BMI", "SYSBP", "DIABP"), 
                         selected = "BMI"),
@@ -95,6 +108,7 @@ ui <- dashboardPage(
                         choices = c("SYSBP", "DIABP", "BMI"), 
                         selected = "SYSBP")
           ),
+          #Generating scatter plot for clinical observed data
           box(
             title = "Clinical Measure Scatter Plot", 
             width = 8, 
@@ -105,7 +119,7 @@ ui <- dashboardPage(
           )
         )
       ),
-      
+      #generate plots showing death count by treatment groups
       tabItem(
         tabName = "outcomes",
         fluidRow(
@@ -117,6 +131,7 @@ ui <- dashboardPage(
             collapsible = TRUE,
             plotOutput("deathPlot")
           ),
+          #Generating Table containing summary of deaths by treatment groups
           box(
             title = "Summary Table", 
             width = 6, 

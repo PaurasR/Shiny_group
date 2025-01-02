@@ -15,7 +15,7 @@ library(DT)
 library(waiter)
 
 #load DIG dataset
-DIG <- read.csv("DIG.csv")
+DIG <- read.csv(here::here("data","DIG.csv"))
 
 DIG <- DIG %>% filter(!is.na(AGE) & !is.na(DEATH))  #remove missing values 
 

@@ -1,0 +1,12 @@
+name: Shiny_group
+title: Shiny_group
+username: anittajosephmdx
+account: anittajosephmdx
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13655717
+bundleId: 9596786
+url: https://anittajosephmdx.shinyapps.io/Shiny_group/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

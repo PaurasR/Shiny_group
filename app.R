@@ -5,6 +5,7 @@ library(shinydashboardPlus)
 
 #for data
 library(dplyr)
+library(here)
 
 #for plots creation
 library(ggplot2)
@@ -13,8 +14,15 @@ library(DT)
 #for animation
 library(waiter)
 
+if (!file.exists("DIG.csv")) {
+  stop("Error: The file 'DIG.csv' was not found in the working directory. Please ensure the file is placed in the correct location.")
+}print(getwd())
+
+
 #load DIG dataset
 DIG <- read.csv("DIG.csv")
+#DIG <- read.csv(here::here("DIG.csv"))
+
 DIG <- DIG %>% filter(!is.na(AGE) & !is.na(DEATH))  #remove missing values 
 
 #converting specific values in dataset to categorical values for easier use in plots and filters
